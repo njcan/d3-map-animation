@@ -28,3 +28,17 @@
     width: 750px;
     height: 600px;
 }
+
+.scale {
+    font-size: large;
+}
+
+.scale path {
+    stroke-width: 0;
+    stroke: none;
+}
+
+.tick line {
+    stroke-width: 0;
+    stroke: none;
+}
