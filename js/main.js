@@ -40,6 +40,7 @@ $(document).ready(function () {
 
                     var sites = d3.select("g.sites");
                     var chart = d3.select("g.chart");
+                    var color = d3.scaleOrdinal(d3.schemeCategory10);
 
                     // Iterate through site coordinates
                     for(var site in data) {
@@ -56,7 +57,7 @@ $(document).ready(function () {
                                 .attr("r", 10)
                                 .attr("stroke", "black")
                                 .attr("stroke-width", 1)
-                                .attr("fill", "cyan")
+                                .attr("fill", color(site))
                                 .style("opacity", 0);
 
                             // Fade in / stagger site animation
@@ -77,7 +78,7 @@ $(document).ready(function () {
                                 .attr("r", 10)
                                 .attr("stroke", "black")
                                 .attr("stroke-width", 1)
-                                .attr("fill", "cyan")
+                                .attr("fill", color(site))
                                 .style("opacity", 0);
 
                             // Fade in / stagger bounce animation

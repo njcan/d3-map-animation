@@ -30,8 +30,8 @@
       <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="97" column="49" lean-forward="true" selection-start-line="97" selection-start-column="49" selection-end-line="97" selection-end-column="49" />
+            <state relative-caret-position="578">
+              <caret line="76" column="48" lean-forward="true" selection-start-line="76" selection-start-column="48" selection-end-line="76" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -183,7 +183,7 @@
       <updated>1525982925176</updated>
       <workItem from="1525982926438" duration="14789000" />
       <workItem from="1526075790741" duration="11908000" />
-      <workItem from="1526138993706" duration="14749000" />
+      <workItem from="1526138993706" duration="16095000" />
     </task>
     <task id="LOCAL-00001" summary="- Initial commit">
       <created>1526093253329</created>
@@ -199,11 +199,18 @@
       <option name="project" value="LOCAL" />
       <updated>1526154446748</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="- Added bounce animations">
+      <created>1526157494829</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1526157494829</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41446000" />
+    <option name="totallyTimeSpent" value="42792000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
@@ -256,7 +263,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="- Initial commit" />
     <MESSAGE value="- Added animations" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Added animations" />
+    <MESSAGE value="- Added bounce animations" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Added bounce animations" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -348,8 +356,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="97" column="49" lean-forward="true" selection-start-line="97" selection-start-column="49" selection-end-line="97" selection-end-column="49" />
+        <state relative-caret-position="578">
+          <caret line="76" column="48" lean-forward="true" selection-start-line="76" selection-start-column="48" selection-end-line="76" selection-end-column="48" />
           <folding />
         </state>
       </provider>
