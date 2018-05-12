@@ -1,4 +1,10 @@
 "use strict";
+
+// Initialize xScale
+var xScale = d3.scaleLinear()
+    .domain([0, 40])
+    .range([0, 1000]);
+
 $(document).ready(function () {
 
     var svg = d3.select("svg");
@@ -33,6 +39,7 @@ $(document).ready(function () {
                         .attr("transform", "translate(275, 0)");
 
                     var sites = d3.select("g.sites");
+                    var chart = d3.select("g.chart");
 
                     // Iterate through site coordinates
                     for(var site in data) {
@@ -42,15 +49,15 @@ $(document).ready(function () {
                         var amount = data[site].ugl;
 
                         // Append circle that represents the site
-                        if(!isNaN(xCoord) && !isNaN(yCoord)) {
+                        if (!isNaN(xCoord) && !isNaN(yCoord)) {
                             var mapSite = sites.append("circle")
-                                    .attr("cx", xCoord)
-                                    .attr("cy", yCoord)
-                                    .attr("r", 10)
-                                    .attr("stroke", "black")
-                                    .attr("stroke-width", 1)
-                                    .attr("fill", "cyan")
-                                    .style("opacity", 0);
+                                .attr("cx", xCoord)
+                                .attr("cy", yCoord)
+                                .attr("r", 10)
+                                .attr("stroke", "black")
+                                .attr("stroke-width", 1)
+                                .attr("fill", "cyan")
+                                .style("opacity", 0);
 
                             // Fade in / stagger site animation
                             mapSite
@@ -61,16 +68,30 @@ $(document).ready(function () {
                                     }
                                 })
                                 .duration(250)
-                                .ease(d3.easeLinear)
                                 .style("opacity", 1);
 
-                            var dataSite = sites.append("circle")
+                            // Append circle that correlates to site
+                            var dataSite = chart.append("circle")
+                                .attr("cx", 250 + xScale(amount))
+                                .attr("cy", 600)
+                                .attr("r", 10)
+                                .attr("stroke", "black")
+                                .attr("stroke-width", 1)
+                                .attr("fill", "cyan")
+                                .style("opacity", 0);
 
-
-
-
-
-
+                            // Fade in / stagger bounce animation
+                            dataSite
+                                .transition()
+                                .delay(function() {
+                                    if(!isNaN(site)) {
+                                        return 500 * site;
+                                    }
+                                })
+                                .duration(1000)
+                                .ease(d3.easeBounce)
+                                .attr("cy", 688.5)
+                                .style("opacity", 1);
                         }
                     }
 
@@ -87,11 +108,6 @@ var plotChart = function() {
     var chart = d3.select("svg")
         .append("g")
         .attr("class", "chart");
-
-    // Initialize xScale
-    var xScale = d3.scaleLinear()
-        .domain([0, 40])
-        .range([0, 1000]);
 
     // Initialize axis
     var axis = d3.axisBottom(xScale)
