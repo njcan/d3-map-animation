@@ -1,0 +1,30 @@
+.bounding-box {
+    border: black 3px solid;
+    height: 900px;
+    width: 1500px;
+    margin: 5px auto 5px auto;
+}
+
+.data-area {
+    width: inherit;
+    height: inherit;
+    pointer-events: none;
+}
+
+.states {
+    fill: none;
+    stroke: #000;
+    stroke-width: 1px;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    pointer-events: all;
+}
+
+.states :hover {
+    fill: lightblue;
+}
+
+.map {
+    width: 750px;
+    height: 600px;
+}
