@@ -1,109 +1,14 @@
 "use strict";
 
-// Initialize xScale
-var xScale = d3.scaleLinear()
-    .domain([0, 40])
-    .range([0, 1000]);
+var plotChart = function(data) {
 
-$(document).ready(function () {
-
-    var svg = d3.select("svg");
+    // Path for states to be drawn
     var path = d3.geoPath();
 
-    d3.json("data/usa-map.json")
-        .then(function (data) {
-
-            // Draw chart
-            plotChart();
-
-            // Draw states
-            svg.append("g")
-                    .attr("class", "states")
-                    .attr("transform", "translate(275, 0)")
-                .selectAll("path")
-                .data(topojson.feature(data, data.objects.states).features)
-                .enter().append("path")
-                    .attr("d", path)
-
-        })  // Catch errors loading the json data
-        .catch(function (reason) {
-            console.log("Error loading json file - " + reason);
-        }) // When the states are done
-        .finally(function () {
-
-            // Draw the sites sampled
-            d3.csv("data/coordinates.csv")
-                .then(function(data) {
-                    svg.append("g")
-                        .attr("class", "sites")
-                        .attr("transform", "translate(275, 0)");
-
-                    var sites = d3.select("g.sites");
-                    var chart = d3.select("g.chart");
-                    var color = d3.scaleOrdinal(d3.schemeCategory10);
-
-                    // Iterate through site coordinates
-                    for(var site in data) {
-
-                        var xCoord = data[site].x;
-                        var yCoord = data[site].y;
-                        var amount = data[site].ugl;
-
-                        // Append circle that represents the site
-                        if (!isNaN(xCoord) && !isNaN(yCoord)) {
-                            var mapSite = sites.append("circle")
-                                .attr("cx", xCoord)
-                                .attr("cy", yCoord)
-                                .attr("r", 10)
-                                .attr("stroke", "black")
-                                .attr("stroke-width", 1)
-                                .attr("fill", color(site))
-                                .style("opacity", 0);
-
-                            // Fade in / stagger site animation
-                            mapSite
-                                .transition()
-                                .delay(function() {
-                                    if(!isNaN(site)) {
-                                        return 500 * site;
-                                    }
-                                })
-                                .duration(250)
-                                .style("opacity", 1);
-
-                            // Append circle that correlates to site
-                            var dataSite = chart.append("circle")
-                                .attr("cx", 250 + xScale(amount))
-                                .attr("cy", 600)
-                                .attr("r", 10)
-                                .attr("stroke", "black")
-                                .attr("stroke-width", 1)
-                                .attr("fill", color(site))
-                                .style("opacity", 0);
-
-                            // Fade in / stagger bounce animation
-                            dataSite
-                                .transition()
-                                .delay(function() {
-                                    if(!isNaN(site)) {
-                                        return 500 * site;
-                                    }
-                                })
-                                .duration(1000)
-                                .ease(d3.easeBounce)
-                                .attr("cy", 688.5)
-                                .style("opacity", 1);
-                        }
-                    }
-
-                }) // Catch errors during loading
-                .catch(function (reason) {
-                    console.log("Error loading csv file - " + reason);
-                })
-        });
-});
-
-var plotChart = function() {
+    // Initialize xScale
+    var xScale = d3.scaleLinear()
+        .domain([0, 40])
+        .range([0, 1000]);
 
     // Append chart group
     var chart = d3.select("svg")
@@ -115,7 +20,7 @@ var plotChart = function() {
         .ticks(5);
 
     // Append data-rectangle
-    var rect = chart.append("rect")
+    chart.append("rect")
         .attr("x", 250)
         .attr("y", 650)
         .attr("height", 75)
@@ -135,5 +40,98 @@ var plotChart = function() {
         .attr("transform", "translate(1283, 746)")
         .style("text-anchor", "middle")
         .style("font-size", "large")
-        .text("ug/L")
+        .text("ug/L");
+
+    // Draw states
+    chart.append("g")
+        .attr("class", "states")
+        .attr("transform", "translate(275, 0)")
+        .selectAll("path")
+        .data(topojson.feature(data, data.objects.states).features)
+        .enter().append("path")
+        .attr("d", path);
+};
+
+var plotCoordinates = function(data) {
+
+    // Select the chart, initialize color scheme for sites
+    var chart = d3.select("g.chart");
+    var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+    // Initialize xScale
+    var xScale = d3.scaleLinear()
+        .domain([0, 40])
+        .range([0, 1000]);
+
+    // Add grouping to append the sites to
+    chart.append("g")
+        .attr("class", "sites")
+        .attr("transform", "translate(275, 0)");
+
+    // Read in data
+    d3.csv(data)
+        .then(function(d) {
+
+            // Select sites grouping
+            var sites = d3.select("g.sites");
+            var values = d3.values(d);
+
+            // Iterate through site coordinates from data file
+            for(var v in values) {
+
+                var xCoord = values[v].x;
+                var yCoord = values[v].y;
+                var ugl    = values[v].ugl;
+
+                // Append circle that represents the site
+                if (!isNaN(xCoord) && !isNaN(yCoord)) {
+                    var mapSite = sites.append("circle")
+                        .attr("cx", xCoord)
+                        .attr("cy", yCoord)
+                        .attr("r", 10)
+                        .attr("stroke", "black")
+                        .attr("stroke-width", 1)
+                        .attr("fill", color(v))
+                        .style("opacity", 0);
+
+                    // Fade in / stagger site animation
+                    mapSite
+                        .transition()
+                        .delay(function() {
+                            if(!isNaN(v)) {
+                                return 500 * v;
+                            }
+                        })
+                        .duration(250)
+                        .style("opacity", 1);
+
+                    // Append circle that correlates to site
+                    var dataSite = chart.append("circle")
+                        .attr("cx", 250 + xScale(ugl))
+                        .attr("cy", 600)
+                        .attr("r", 10)
+                        .attr("stroke", "black")
+                        .attr("stroke-width", 1)
+                        .attr("fill", color(v))
+                        .style("opacity", 0);
+
+                    // Fade in / stagger bounce animation
+                    dataSite
+                        .transition()
+                        .delay(function() {
+                            if(!isNaN(v)) {
+                                return 500 * v;
+                            }
+                        })
+                        .duration(1000)
+                        .ease(d3.easeBounce)
+                        .attr("cy", 688.5)
+                        .style("opacity", 1);
+                }
+            }
+
+        }) // Catch errors during loading
+        .catch(function (reason) {
+            console.log("Error loading csv file - " + reason);
+        })
 };

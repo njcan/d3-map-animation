@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>D3 Animation Demo</title>
     <link rel="stylesheet" type="text/css" href="css/d3.css">
-    <script src="js/es6-promise.js"></script>
 </head>
 <body>
     <h1 align="center">D3 Map Animation Demo</h1>
@@ -15,7 +14,34 @@
 
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/d3.min.js"></script>
-    <script src="https://d3js.org/topojson.v2.min.js"></script>
+    <script src="js/topojson.v2.min.js"></script>
     <script src="js/main.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var mapData = "data/usa-map.json";
+            var coordinatesData = "data/coordinates.csv";
+
+            d3.json(mapData)
+                .then(function (data) {
+                    plotChart(data);
+                })
+
+                // Catch any potential errors when plotting the chart
+                .catch(function (reason) {
+                    console.log("Error when plotting chart - " + reason);
+                })
+
+                // When the chart is finished drawing and no errors are present
+                .then(function () {
+                    plotCoordinates(coordinatesData);
+                })
+
+                // Catch any potential errors when plotting the coordinates
+                .catch(function (reason) {
+                    console.log("Error when plotting coordinates - " + reason);
+                });
+        });
+    </script>
 </body>
 </html>
