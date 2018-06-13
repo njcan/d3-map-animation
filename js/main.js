@@ -79,6 +79,7 @@ var plotCoordinates = function(data) {
             // Iterate through site coordinates from data file
             for(var v in values) {
 
+                // Get values from key-value pairings
                 var xCoord = values[v].x;
                 var yCoord = values[v].y;
                 var ugl    = values[v].ugl;
@@ -86,12 +87,12 @@ var plotCoordinates = function(data) {
                 // Append circle that represents the site
                 if (!isNaN(xCoord) && !isNaN(yCoord)) {
                     var mapSite = sites.append("circle")
-                        .attr("cx", xCoord)
-                        .attr("cy", yCoord)
+                        .attr("cx", xCoord) // x-coord from file
+                        .attr("cy", yCoord) // y-coord from file
                         .attr("r", 10)
                         .attr("stroke", "black")
                         .attr("stroke-width", 1)
-                        .attr("fill", color(v))
+                        .attr("fill", color(v)) // Pick the color from color scale
                         .style("opacity", 0);
 
                     // Fade in / stagger site animation
@@ -99,7 +100,7 @@ var plotCoordinates = function(data) {
                         .transition()
                         .delay(function() {
                             if(!isNaN(v)) {
-                                return 500 * v;
+                                return 500 * v; // Stagger the animation by ms example - 0, 500, 1000, 1500 etc
                             }
                         })
                         .duration(250)
@@ -107,12 +108,12 @@ var plotCoordinates = function(data) {
 
                     // Append circle that correlates to site
                     var dataSite = chart.append("circle")
-                        .attr("cx", 250 + xScale(ugl))
+                        .attr("cx", 250 + xScale(ugl)) // Scale the value to fit within the graph
                         .attr("cy", 600)
                         .attr("r", 10)
                         .attr("stroke", "black")
                         .attr("stroke-width", 1)
-                        .attr("fill", color(v))
+                        .attr("fill", color(v)) // Pick the same color as the matching coordinate
                         .style("opacity", 0);
 
                     // Fade in / stagger bounce animation
@@ -120,7 +121,7 @@ var plotCoordinates = function(data) {
                         .transition()
                         .delay(function() {
                             if(!isNaN(v)) {
-                                return 500 * v;
+                                return 500 * v; // Stagger the animation by ms example - 0, 500, 1000, 1500 etc
                             }
                         })
                         .duration(1000)
